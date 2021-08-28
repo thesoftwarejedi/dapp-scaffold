@@ -24,3 +24,76 @@ code {
   background-repeat: no-repeat;
   margin: 0 auto 0 auto;
 }
+
+.custom-collapsed-tools {
+  height: auto;
+  padding: 5px;
+  width: 770px;
+  margin: 30px 30px 30px 0;
+}
+
+.tools-title {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bolder;
+  padding-left: 10px;
+}
+
+.tools-subtext {
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.tools-infotext {
+  font-weight: bolder;
+  padding-top: 35px;
+  padding-bottom: 20px;
+}
+
+.token-card {
+  background: #202020 !important;
+}
+
+
+.step-button {
+	background-color:#024031;
+	border-radius:4px;
+	display:inline-block;
+	cursor:pointer;
+	color:#06d69e;
+	font-size:17px;
+	font-weight:bold;
+  width: 150px;
+  border: none;
+	padding:10px 10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #024031;
+}
+
+/* TODO CLEANUP */
+.ant-collapse-item-disabled .ant-collapse-header {
+  background: #024030;
+  font-size: 22px;
+  padding: 10px !important;
+  font-weight: bold;
+  color: rgba(6, 214, 160, 1) !important;
+}
+
+.ant-collapse-header {
+  text-align: left;
+  background: #052935;
+  font-size: 22px;
+  padding: 10px !important;
+  font-weight: bold;
+  color: rgba(17, 138, 178, 1)!important;
+}
+
+.home-page {
+  margin-top: 5% !important;
+}
+
+.tools-page {
+  text-align: left;
+  margin-top: 5% !important;
+}
