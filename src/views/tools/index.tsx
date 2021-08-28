@@ -47,7 +47,7 @@ export const AccountToolsView = () => {
               </Col>
               <Col span={4}>
                 <div>
-                  <div>
+                  <div style={{color:'#05bb8c'}}>
                     {truncateString(key)}
                   </div>
                   <div>
