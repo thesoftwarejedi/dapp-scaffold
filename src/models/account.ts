@@ -8,6 +8,10 @@ import {
 import { AccountInfo as TokenAccountInfo, Token } from "@solana/spl-token";
 import { TOKEN_PROGRAM_ID } from "../utils/ids";
 
+export interface GroupedTokenAccounts {
+  [key: string]: {auxAccounts: [string], balances: [number], ata: string, ataInfo: any, totalBalance: number};
+}
+
 export interface TokenAccount {
   pubkey: PublicKey;
   account: AccountInfo<Buffer>;

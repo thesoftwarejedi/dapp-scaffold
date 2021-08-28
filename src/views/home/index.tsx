@@ -1,59 +1,74 @@
-import { WalletMultiButton } from "@solana/wallet-adapter-ant-design";
-import { Button, Col, Row } from "antd";
-import React, { useEffect } from "react";
+import { Button, Col, Input, Row } from "antd";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { TokenIcon } from "../../components/TokenIcon";
-import { useConnectionConfig } from "../../contexts/connection";
-import { useMarkets } from "../../contexts/market";
-import { useUserBalance, useUserTotalBalance } from "../../hooks";
-import { WRAPPED_SOL_MINT } from "../../utils/ids";
-import { formatUSD } from "../../utils/utils";
+import { sendTransaction } from "../../contexts/connection";
+
+import { notify } from "../../utils/notifications";
+import { ConnectButton } from "./../../components/ConnectButton";
+import { LABELS } from "../../constants";
+import { createDuplicateTokenAccount } from "../../actions";
+import { useConnection } from "../../contexts/connection";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { TransactionInstruction, PublicKey, Transaction } from "@solana/web3.js";
+
 
 export const HomeView = () => {
-  const { marketEmitter, midPriceInUSD } = useMarkets();
-  const { tokenMap } = useConnectionConfig();
-  const SRM_ADDRESS = "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt";
-  const SRM = useUserBalance(SRM_ADDRESS);
-  const SOL = useUserBalance(WRAPPED_SOL_MINT);
-  const { balanceInUSD: totalBalanceInUSD } = useUserTotalBalance();
+  const connection = useConnection();
+  const { publicKey, signTransaction } = useWallet();
+  const [ mint, setMint] = useState('C4xYD4886ZDDFNnKHAJ11RSCQSnhuMED2qcz8mJiytNb');
 
-  useEffect(() => {
-    const refreshTotal = () => {};
+  const handleMintChange = (e: any) =>setMint(e.target.value);
 
-    const dispose = marketEmitter.onMarket(() => {
-      refreshTotal();
-    });
+  const handleDuplicateAccountCreation = useCallback(async () => {
+    try {
+      if (!publicKey) {
+        return;
+      }
+      let instructions: TransactionInstruction[] = [];
+      let transaction: Transaction = new Transaction();
+      console.log(instructions);
+      const signers: any = []
+      const mintTestToken = new PublicKey(mint);
 
-    refreshTotal();
+      // Creates 2 aux
+      const value = await createDuplicateTokenAccount(instructions, publicKey, 10000000, mintTestToken, publicKey,  signers)
 
-    return () => {
-      dispose();
-    };
-  }, [marketEmitter, midPriceInUSD, tokenMap]);
+      instructions.forEach(instruct => {
+        transaction.add(instruct);
+      })
+
+      // Walletadapter type doesn't work correctly
+      const hackyWallet = {publicKey: publicKey, signTransaction: signTransaction } as any;
+
+      const result = await sendTransaction(connection, hackyWallet, instructions, signers);
+      
+      notify({
+        // TODO change labels
+        message: LABELS.TOKEN_SCRAMBLED,
+        type: "success",
+      });
+    } catch (error) {
+      notify({
+        // TODO change labels
+        message: LABELS.TOKEN_SCRAMBLED_FAILED,
+        type: "error",
+      });
+      console.error(error);
+    }
+  }, [publicKey, connection]);
 
   return (
-    <Row gutter={[16, 16]} align="middle">
-      <Col span={24}>
-        <h2>Your balances ({formatUSD.format(totalBalanceInUSD)}):</h2>
-        <h2>
-          SOL: {SOL.balance} ({formatUSD.format(SOL.balanceInUSD)})
-        </h2>
-        <h2 style={{ display: "inline-flex", alignItems: "center" }}>
-          <TokenIcon mintAddress={SRM_ADDRESS} /> SRM: {SRM?.balance} (
-          {formatUSD.format(SRM?.balanceInUSD)})
-        </h2>
-      </Col>
-
+    <Row gutter={[16, 16]} className='home-page' align="top">
       <Col span={12}>
-        <WalletMultiButton type="ghost" />
+        <ConnectButton type="primary" onClick={handleDuplicateAccountCreation}>
+            Scramble mint
+        </ConnectButton>
+        <Input type="text" value={mint} onChange={handleMintChange} />
       </Col>
       <Col span={12}>
-        <Link to="/faucet">
-          <Button>Faucet</Button>
+        <Link to="/tools">
+          <Button>ToolPage</Button>
         </Link>
-      </Col>
-      <Col span={24}>
-        <div className="builton" />
       </Col>
     </Row>
   );

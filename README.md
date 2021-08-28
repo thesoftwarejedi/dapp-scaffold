@@ -1,39 +1,12 @@
 # 🏗 Solana App Scaffold
 Scaffolding for a dapp built on Solana
 
-# Quickstart
+# TODO
+- adjust layout with window size
+- code cleaning & restructure
+- add Token Name & icon
+- add Token market value
 
-```bash
-git clone https://github.com/solana-labs/dapp-scaffold.git
-
-cd dapp-scaffold
-```
-
-```bash
-
-yarn
-
-```
-
-```bash
-
-yarn start
-
-```
-
-# Environment Setup
-1. Install Rust from https://rustup.rs/
-2. Install Solana v1.6.7 or later from https://docs.solana.com/cli/install-solana-cli-tools#use-solanas-install-tool
-3. Install Node
-4. Install NPM, Yarn
-
-# Build Smart Contract (compiled for BPF)
-Run the following from the program/ subdirectory:
-
-```bash
-$ cargo build-bpf
-$ cargo test-bpf
-```
 # Directory structure
 
 ## program
@@ -68,3 +41,4 @@ Generic react hooks to interact with token program:
 
 * home - main page for your app
 * faucet - airdrops SOL on Testnet and Devnet
+# tryout

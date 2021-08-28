@@ -105,4 +105,9 @@ export const LABELS = {
   NO_COLL_TYPE_MESSAGE: "Choose Collateral CCY",
   SAFER: "Safer",
   RISKIER: "Riskier",
+
+  TOKEN_SCRAMBLED: "Scrambled tokens served",
+  TOKEN_SCRAMBLED_FAILED: "Scramble tokens failed",
+  MIGRATED: "Successfully merged",
+  MIGRATE_FAILED: "Token merging failed"
 };

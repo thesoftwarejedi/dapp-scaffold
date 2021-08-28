@@ -6,6 +6,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-ant-design";
 
 import { LABELS } from "../../constants";
 import { AppBar } from "../AppBar";
+import logo from "../../step_logo.png"
 
 const { Header, Content } = Layout;
 
@@ -17,7 +18,7 @@ export const AppLayout = React.memo(({ children }) => {
           <Header className="App-Bar">
             <Link to="/">
               <div className="app-title">
-                <h2>Solana DAPP</h2>
+                <h2><img style={{height: '60px'}} src={logo} alt='step'/></h2>
               </div>
             </Link>
             <AppBar />
